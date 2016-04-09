@@ -1,0 +1,27 @@
+{
+  "comment": "test network",
+  "nodes": [
+    {
+      "name": "server 1",
+      "type": "server",
+      "id": 0
+    },
+    {
+      "name": "server 2",
+      "type": "server",
+      "id": 1
+    }
+  ],
+  "edges": [
+    {
+      "source": 0,
+      "target": 1,
+      "caption": "1.2.3.4"
+    },
+    {
+      "source": 0,
+      "target": 1,
+      "caption": "2.3.4.5"
+    }
+  ]
+}
