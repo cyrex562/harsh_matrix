@@ -5,18 +5,41 @@
     <meta charset="UTF-8">
     <title>Harsh Matrix</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/css/alchemy.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
-
-<body>
-<h1>Harsh Matrix</h1>
-<div class="cy" id="cy"></div>
-</body>
 
 <script src="/js/angular.js"></script>
 <script src="/js/d3.js"></script>
 <!--<script src="/js/alchemy.js"></script>-->
 <script src="/js/cytoscape.js"></script>
 <script src="/js/main.js"></script>
+
+<body>
+<h1>Harsh Matrix</h1>
+<div ng-app="main_app" ng-controller="main_controller">
+    <div class="cy" id="cy">
+
+    </div>
+    <div id="add_form">
+        <div id="id-form-group" class="form-group">
+            <label>Node ID</label>
+            <input type="text" name="id" class="form-control" placeholder=""
+                   ng-model="add_form_data.id">
+        </div>
+
+        <!-- edge targets -->
+        <div id="edge-target-group" class="form-group">
+            <label for="edge_targets">Edge Targets</label>
+            <select name="edge_targets" class="form-control"
+                    multiple
+                    ng-options="node.data.id for node in nodes track by node.data.id"
+                    ng-model="add_form_data.selected_nodes"></select>
+        </div>
+        <button type="button" ng-click="add_form_btn_click()"
+                class="btn btn-success">Add/Update Node</button>
+    </div>
+</div>
+</body>
+
+
 </html>

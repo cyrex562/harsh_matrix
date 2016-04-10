@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Harsh Matrix</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+
+<script src="/js/angular.js"></script>
+<script src="/js/add_node.js"></script>
+
+<body>
+<h1>Add Node</h1>
+<div ng-app="main_app" ng-controller="add_form_controller">
+    <!-- node id -->
+    <div id="id-form-group" class="form-group">
+        <label>Node ID</label>
+        <input type="text" name="id" class="form-control" placeholder=""
+               ng-model="add_form.id">
+    </div>
+
+    <!-- edge targets -->
+    <div id="edge-target-group" class="form-group">
+        <label>Edge Targets</label>
+        <select name="edge_targets" class="form-control"
+                multiple ng-options="node.data.id for node in nodes track by node.data.id"
+                ng-model="selected_nodes"></select>
+    </div>
+</div>
+</body>
+
+
+</html>
