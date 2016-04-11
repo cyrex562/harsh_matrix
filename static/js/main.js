@@ -42,11 +42,12 @@ function update_graph($scope) {
 
 function update_nodes($scope) {
     $scope.nodes = [];
-    for (var i = 0; i < $scope.elements.length; i++) {
-        if ($scope.elements[i].group === "nodes") {
-            $scope.nodes.push($scope.elements[i]);
-        }
-    }
+    // for (var i = 0; i < $scope.elements.length; i++) {
+    //     if ($scope.elements[i].group === "nodes") {
+    //         $scope.nodes.push($scope.elements[i]);
+    //     }
+    // }
+    $scope.nodes = 
 }
 
 app.controller('main_controller', function ($scope, $http) {
@@ -61,7 +62,7 @@ app.controller('main_controller', function ($scope, $http) {
         // add_form code
         $scope.add_form_data = {};
         // TODO: fix option selection
-        $scope.add_form_data.selected_nodes = [$scope.nodes[0].data.id];
+        $scope.add_form_data.selected_nodes = [$scope.nodes[0].data];
 
         $scope.add_form_btn_click = function () {
             $http({
