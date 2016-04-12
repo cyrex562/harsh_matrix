@@ -38,6 +38,29 @@ function update_graph($scope) {
         }
 
     });
+    cy.on('tap', 'node', function(event) {
+            var tapped_node = event.cyTarget;
+            var tapped_node_id = tapped_node.id();
+            console.log('tapped node id: ' + tapped_node_id);
+
+            $scope.add_form_data.id = tapped_node_id;
+
+            var sel_nodes = cy.collection();
+            sel_nodes = sel_nodes.add(tapped_node);
+            var sel_edges = sel_nodes.outgoers();
+
+            var sel_tgt_ids = [];
+            var sel_tgt_coll = sel_edges.targets();
+            var sel_targets = [];
+            for (var i = 0; i < sel_tgt_coll.length; i++) {
+                sel_tgt_ids.push(sel_tgt_coll[i].id());
+                sel_targets.push(sel_tgt_coll[i].json());
+            }
+            console.log("selected target ids: " + JSON.stringify(sel_tgt_ids));
+
+            $scope.add_form_data.selected_nodes = sel_targets;
+            $scope.$apply();
+        });
 }
 
 function update_nodes($scope) {
@@ -79,32 +102,10 @@ app.controller('main_controller', function ($scope, $http) {
                 });
         };
 
-        cy.on('tap', 'node', function(event) {
-            var tapped_node = event.cyTarget;
-            var tapped_node_id = tapped_node.id();
-            console.log('tapped node id: ' + tapped_node_id);
 
-            $scope.add_form_data.id = tapped_node_id;
-
-            var sel_nodes = cy.collection();
-            sel_nodes = sel_nodes.add(tapped_node);
-            var sel_edges = sel_nodes.outgoers();
-
-            var sel_tgt_ids = [];
-            var sel_tgt_coll = sel_edges.targets();
-            var sel_targets = [];
-            for (var i = 0; i < sel_tgt_coll.length; i++) {
-                sel_tgt_ids.push(sel_tgt_coll[i].id());
-                sel_targets.push(sel_tgt_coll[i].json());
-            }
-            console.log("selected target ids: " + JSON.stringify(sel_tgt_ids));
-
-            $scope.add_form_data.selected_nodes = sel_targets;
-        });
 
     }, function get_elements_error() {
         console.log("failed to get elements from server");
     });
 });
-
 
