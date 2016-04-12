@@ -41,13 +41,12 @@ function update_graph($scope) {
 }
 
 function update_nodes($scope) {
+    var node_coll = cy.collection("node");
     $scope.nodes = [];
-    // for (var i = 0; i < $scope.elements.length; i++) {
-    //     if ($scope.elements[i].group === "nodes") {
-    //         $scope.nodes.push($scope.elements[i]);
-    //     }
-    // }
-    $scope.nodes = 
+    for (var i = 0; i < node_coll.length; i++) {
+        $scope.nodes.push(node_coll[i].json());
+    }
+
 }
 
 app.controller('main_controller', function ($scope, $http) {
@@ -56,13 +55,14 @@ app.controller('main_controller', function ($scope, $http) {
         url: '/api/elements'
     }).then(function get_elements_success(response) {
         $scope.elements = response.data.elements;
-        update_nodes($scope);
         update_graph($scope);
+        update_nodes($scope);
 
         // add_form code
         $scope.add_form_data = {};
-        // TODO: fix option selection
-        $scope.add_form_data.selected_nodes = [$scope.nodes[0].data];
+
+        console.log('set selected nodes');
+        $scope.add_form_data.selected_nodes = [$scope.nodes[0].data.id];
 
         $scope.add_form_btn_click = function () {
             $http({
@@ -74,27 +74,32 @@ app.controller('main_controller', function ($scope, $http) {
                 .success(function (response) {
                     // update the graph, etc., again
                     $scope.elements = response.elements;
-                    update_nodes($scope);
                     update_graph($scope);
+                    update_nodes($scope);
                 });
         };
 
         cy.on('tap', 'node', function(event) {
             var tapped_node = event.cyTarget;
-            console.log('tapped node id: ' + tapped_node.id());
-            var tapped_node_id = event.cyTarget.id();
+            var tapped_node_id = tapped_node.id();
+            console.log('tapped node id: ' + tapped_node_id);
 
-            // TODO: fill in form with selected data
             $scope.add_form_data.id = tapped_node_id;
 
-            // set selected options by getting source edges
-            var sel_edges = cy.$('#' + tapped_node_id).outgoers();
-            var sel_targets = sel_edges.targets();
-            $scope.add_form_data.selected_nodes = [];
-            for (var i = 0; i < sel_targets.length; i++) {
-                var sel_tgt_id = sel_targets[i].id();
-                $scope.add_form_data.selected_nodes.push(sel_tgt_id);
+            var sel_nodes = cy.collection();
+            sel_nodes = sel_nodes.add(tapped_node);
+            var sel_edges = sel_nodes.outgoers();
+
+            var sel_tgt_ids = [];
+            var sel_tgt_coll = sel_edges.targets();
+            var sel_targets = [];
+            for (var i = 0; i < sel_tgt_coll.length; i++) {
+                sel_tgt_ids.push(sel_tgt_coll[i].id());
+                sel_targets.push(sel_tgt_coll[i].json());
             }
+            console.log("selected target ids: " + JSON.stringify(sel_tgt_ids));
+
+            $scope.add_form_data.selected_nodes = sel_targets;
         });
 
     }, function get_elements_error() {
