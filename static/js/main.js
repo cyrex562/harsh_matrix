@@ -7,9 +7,11 @@ var cy = {};
 
 function update_graph($scope) {
     cy = cytoscape({
-        //container: document.getElementById('cy'), // container to render in
         container: angular.element(document.querySelector('#cy')),
         elements: $scope.elements,
+
+        boxSelectionEnabled: true,
+        selectionType: 'additive',
 
         style: [
             {
@@ -28,6 +30,12 @@ function update_graph($scope) {
                     'target-arrow-color': '#ccc',
                     'target-arrow-shape': 'triangle'
                 }
+            },
+            {
+                selector: 'node:selected',
+                style: {
+                    'background-color': '#ff6666'
+                }
             }
         ],
 
@@ -38,38 +46,52 @@ function update_graph($scope) {
         }
 
     });
-    cy.on('tap', 'node', function(event) {
-            var tapped_node = event.cyTarget;
-            var tapped_node_id = tapped_node.id();
-            console.log('tapped node id: ' + tapped_node_id);
+    cy.on('tap', 'node', function (event) {
+        var tapped_node = event.cyTarget;
+        $scope.node_form_data.node_id = tapped_node.id();
+        console.log('tapped node id: ' + $scope.node_form_data.node_id);
 
-            $scope.add_form_data.id = tapped_node_id;
-
-            var sel_nodes = cy.collection();
-            sel_nodes = sel_nodes.add(tapped_node);
-            var sel_edges = sel_nodes.outgoers();
-
-            var sel_tgt_ids = [];
-            var sel_tgt_coll = sel_edges.targets();
-            var sel_targets = [];
-            for (var i = 0; i < sel_tgt_coll.length; i++) {
-                sel_tgt_ids.push(sel_tgt_coll[i].id());
-                sel_targets.push(sel_tgt_coll[i].json());
+        var idx_to_remove = -1;
+        for (var i = 0; i < $scope.sel_nodes.length; i++) {
+            if ($scope.sel_nodes[i] === tapped_node.id()) {
+                idx_to_remove = i;
             }
-            console.log("selected target ids: " + JSON.stringify(sel_tgt_ids));
+        }
+        if (idx_to_remove >  -1) {
+            $scope.sel_nodes.splice(idx_to_remove, 1);
+        } else {
+            $scope.sel_nodes.push(tapped_node.id());
+        }
 
-            $scope.add_form_data.selected_nodes = sel_targets;
-            $scope.$apply();
-        });
+        if ($scope.sel_nodes.length === 1) {
+            $scope.edge_form_data.edge_source = $scope.sel_nodes[0];
+        } else if ($scope.sel_nodes.length === 2) {
+            $scope.edge_form_data.edge_target = $scope.sel_nodes[1];
+        }
+
+        $scope.$apply();
+    });
+
+    cy.on('tap', 'edge', function (event) {
+        var tapped_edge = event.cyTarget;
+        $scope.edge_form_data.edge_id = tapped_edge.id();
+        $scope.edge_form_data.edge_source_id = tapped_edge.source().id();
+        $scope.edge_form_data.edge_target_id = tapped_edge.target().id();
+        console.log("tapped edge id: " + $scope.edge_form_data.edge_id);
+        console.log("tapped edge source: " + $scope.edge_form_data.edge_source_id);
+        console.log("tapped edge target: " + $scope.edge_form_data.edge_target_id);
+        $scope.$apply();
+    });
 }
 
 function update_nodes($scope) {
     var node_coll = cy.collection("node");
-    $scope.nodes = [];
+    $scope.sources = [];
+    $scope.targets = [];
     for (var i = 0; i < node_coll.length; i++) {
-        $scope.nodes.push(node_coll[i].json());
+        $scope.sources.push(node_coll[i].json());
+        $scope.targets.push(node_coll[i].json());
     }
-
 }
 
 app.controller('main_controller', function ($scope, $http) {
@@ -77,31 +99,70 @@ app.controller('main_controller', function ($scope, $http) {
         method: 'GET',
         url: '/api/elements'
     }).then(function get_elements_success(response) {
+        // node form code
+        $scope.num_sel_nodes = 0;
+        $scope.sel_nodes = [];
+        $scope.node_form_data = {};
+        $scope.edge_form_data = {};
+
         $scope.elements = response.data.elements;
         update_graph($scope);
         update_nodes($scope);
 
-        // add_form code
-        $scope.add_form_data = {};
-
-        console.log('set selected nodes');
-        $scope.add_form_data.selected_nodes = [$scope.nodes[0].data.id];
-
-        $scope.add_form_btn_click = function () {
+        $scope.create_node_btn_click = function () {
             $http({
                 method: 'POST',
                 url: '/api/node',
-                data: $scope.add_form_data,
-                headers: { 'Content-Type': 'application/json'}
+                data: {"node_id": ""},
+                headers: {'Content-Type': 'application/json'}
             })
                 .success(function (response) {
-                    // update the graph, etc., again
                     $scope.elements = response.elements;
                     update_graph($scope);
                     update_nodes($scope);
                 });
         };
 
+        $scope.update_node_btn_click = function () {
+            $http({
+                method: 'POST',
+                url: '/api/node',
+                data: $scope.node_form_data,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .success(function (response) {
+                    $scope.elements = response.elements;
+                    update_graph($scope);
+                    update_nodes($scope);
+                });
+        };
+
+        $scope.delete_node_btn_click = function() {
+            $http({
+                method: 'DELETE',
+                url: '/api/node',
+                data: $scope.node_form_data,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .success(function (response) {
+                    update_graph($scope);
+                    update_nodes($scope);
+                });
+        };
+
+        $scope.upsert_edge_btn_click = function () {
+            $http({
+                method: 'POST',
+                url: '/api/edge',
+                data: $scope.edge_form_data,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .success(function (response) {
+                    $scope.elements = response.elements;
+                    update_graph($scope);
+                    update_nodes($scope);
+                });
+        };
 
 
     }, function get_elements_error() {

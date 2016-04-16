@@ -17,31 +17,76 @@
 <body>
 <h1>Harsh Matrix</h1>
 <div ng-app="main_app" ng-controller="main_controller">
-    <div class="cy" id="cy">
-
-    </div>
-    <div id="add_form">
-        <div id="id-form-group" class="form-group">
-            <label>Node ID</label>
-            <input type="text"
-                   name="id"
-                   class="form-control"
-                   placeholder=""
-                   ng-model="add_form_data.id">
-        </div>
-
+    <div class="cy" id="cy"></div>
+    <div id="form">
+        <fieldset>
+            <legend>Nodes</legend>
+            <div id="node-id-form-group" class="form-group">
+                <label>Node ID</label>
+                <input type="text"
+                       id="node_id"
+                       name="node_id"
+                       class="form-control"
+                       placeholder=""
+                       ng-model="node_form_data.node_id"
+                       disabled>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" ng-click="create_node_btn_click()"
+                        class="btn btn-success">Create Node
+                </button>
+                <button type="button" ng-click="update_node_btn_click()"
+                        class="btn">Update Node
+                </button>
+                <button type="button" class="btn"
+                        ng-click="delete_node_btn_click()">
+                    Delete Node
+                </button>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Create Edge</legend>
+            <div id="edge-id-form-group" class="form-group">
+                <label>Edge ID</label>
+                <input type="text"
+                       name="edge_id"
+                       class="form-control"
+                       placeholder=""
+                       ng-model="edge_form_data.edge_id"
+                       disabled>
+            </div>
+            <div id="source-node-id-form-group" class="form-group">
+                <label for="edge_source">Source</label>
+                <input type="text"
+                       name="edge_source"
+                       id="edge_source"
+                       class="form-control"
+                       ng-model="edge_form_data.edge_source"
+                       disabled>
+            </div>
+            <div id="target-node-id-form-group" class="form-group">
+                <label for="edge_target">Target</label>
+                <input type="text"
+                       name="edge_target"
+                       id="edge_target"
+                       class="form-control"
+                       ng-model="edge_form_data.edge_target"
+                       disabled>
+            </div>
+            <button type="button" ng-click="upsert_edge_btn_click()"
+                    class="btn btn-success">Add/Update Edge
+            </button>
+        </fieldset>
         <!-- edge targets -->
-        <div id="edge-target-group" class="form-group">
-            <label for="edge_targets">Edge Targets</label>
-            <select name="edge_targets"
-                    class="form-control"
-                    multiple
-                    ng-model="add_form_data.selected_nodes"
-                    ng-options="node.data.id for node in nodes track by node.data.id">
-            </select>
-        </div>
-        <button type="button" ng-click="add_form_btn_click()"
-                class="btn btn-success">Add/Update Node</button>
+        <!--<div id="edge-target-group" class="form-group">-->
+        <!--<label for="edge_targets">Edge Targets</label>-->
+        <!--<select name="edge_targets"-->
+        <!--class="form-control"-->
+        <!--multiple-->
+        <!--ng-model="node_form_data.selected_nodes"-->
+        <!--ng-options="node.data.id for node in nodes track by node.data.id">-->
+        <!--</select>-->
+        <!--</div>-->
     </div>
 </div>
 </body>
