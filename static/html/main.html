@@ -36,16 +36,16 @@
                         class="btn btn-success">Create Node
                 </button>
                 <button type="button" ng-click="update_node_btn_click()"
-                        class="btn">Update Node
+                        class="btn btn-secondary">Update Node
                 </button>
-                <button type="button" class="btn"
+                <button type="button" class="btn btn-danger"
                         ng-click="delete_node_btn_click()">
                     Delete Node
                 </button>
             </div>
         </fieldset>
         <fieldset>
-            <legend>Create Edge</legend>
+            <legend>Edges</legend>
             <div id="edge-id-form-group" class="form-group">
                 <label>Edge ID</label>
                 <input type="text"
@@ -73,9 +73,14 @@
                        ng-model="edge_form_data.edge_target"
                        disabled>
             </div>
-            <button type="button" ng-click="upsert_edge_btn_click()"
-                    class="btn btn-success">Add/Update Edge
-            </button>
+            <div class="btn-group" role="group">
+                <button type="button" ng-click="create_edge_btn_click()"
+                        class="btn btn-success">Create Edge</button>
+                <button type="button" ng-click="update_edge_btn_click()"
+                        class="btn btn-secondary">Update Edge</button>
+                <button type="button" ng-click="delete_edge_btn_click()"
+                        class="btn btn-danger">Delete Edge</button>
+            </div>
         </fieldset>
         <!-- edge targets -->
         <!--<div id="edge-target-group" class="form-group">-->

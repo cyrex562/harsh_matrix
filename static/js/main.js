@@ -36,6 +36,12 @@ function update_graph($scope) {
                 style: {
                     'background-color': '#ff6666'
                 }
+            },
+            {
+                selector: 'edge:selected',
+                style: {
+                    'line-color': '#ff6666'
+                }
             }
         ],
 
@@ -58,14 +64,19 @@ function update_graph($scope) {
             }
         }
         if (idx_to_remove >  -1) {
+            console.log("removing de-selected node from selected nodes list");
             $scope.sel_nodes.splice(idx_to_remove, 1);
         } else {
+            console.log("adding selected node to selected nodes list");
             $scope.sel_nodes.push(tapped_node.id());
+            console.log("selected nodes list length: " + $scope.sel_nodes.length);
         }
 
-        if ($scope.sel_nodes.length === 1) {
+        if (($scope.sel_nodes.length  + 1) % 2 === 0) {
+            console.log("setting edge source");
             $scope.edge_form_data.edge_source = $scope.sel_nodes[0];
-        } else if ($scope.sel_nodes.length === 2) {
+        } else if ($scope.sel_nodes.length % 2 === 0) {
+            console.log("setting edge target");
             $scope.edge_form_data.edge_target = $scope.sel_nodes[1];
         }
 
@@ -75,8 +86,8 @@ function update_graph($scope) {
     cy.on('tap', 'edge', function (event) {
         var tapped_edge = event.cyTarget;
         $scope.edge_form_data.edge_id = tapped_edge.id();
-        $scope.edge_form_data.edge_source_id = tapped_edge.source().id();
-        $scope.edge_form_data.edge_target_id = tapped_edge.target().id();
+        $scope.edge_form_data.edge_source = tapped_edge.source().id();
+        $scope.edge_form_data.edge_target = tapped_edge.target().id();
         console.log("tapped edge id: " + $scope.edge_form_data.edge_id);
         console.log("tapped edge source: " + $scope.edge_form_data.edge_source_id);
         console.log("tapped edge target: " + $scope.edge_form_data.edge_target_id);
@@ -85,13 +96,7 @@ function update_graph($scope) {
 }
 
 function update_nodes($scope) {
-    var node_coll = cy.collection("node");
-    $scope.sources = [];
-    $scope.targets = [];
-    for (var i = 0; i < node_coll.length; i++) {
-        $scope.sources.push(node_coll[i].json());
-        $scope.targets.push(node_coll[i].json());
-    }
+    $scope.sel_nodes = [];
 }
 
 app.controller('main_controller', function ($scope, $http) {
@@ -145,12 +150,13 @@ app.controller('main_controller', function ($scope, $http) {
                 headers: {'Content-Type': 'application/json'}
             })
                 .success(function (response) {
+                    $scope.elements = response.elements;
                     update_graph($scope);
                     update_nodes($scope);
                 });
         };
 
-        $scope.upsert_edge_btn_click = function () {
+        $scope.create_edge_btn_click = function () {
             $http({
                 method: 'POST',
                 url: '/api/edge',
@@ -164,6 +170,33 @@ app.controller('main_controller', function ($scope, $http) {
                 });
         };
 
+        $scope.delete_edge_btn_click = function() {
+            $http({
+                method: 'DELETE',
+                url: '/api/edge',
+                data: $scope.edge_form_data,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .success(function(response) {
+                    $scope.elements = response.elements;
+                    update_graph($scope);
+                    update_nodes($scope);
+                });
+        };
+
+        $scope.update_edge_btn_click = function() {
+            $http({
+                method: 'PUT',
+                url: '/api/edge',
+                data: $scope.edge_form_data,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .success(function(response) {
+                   $scope.elements = response.elements;
+                    update_graph($scope);
+                    update_nodes($scope);
+                });
+        }
 
     }, function get_elements_error() {
         console.log("failed to get elements from server");
