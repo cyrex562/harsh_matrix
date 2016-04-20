@@ -1,8 +1,9 @@
 import os
 import random
 import string
-
+import json
 import jsonpickle
+import pprint
 
 DATA_DIR = 'D:\\dev\\harsh_matrix\\data'
 
@@ -26,8 +27,12 @@ def get_elements_as_dict():
 
 
 def update_elements_with_dict(elements):
-    elements_json = jsonpickle.encode(elements)
+
+    #elements_json = jsonpickle.encode(elements)
+    elements_json = json.dumps(elements, indent=1)
     elements_file = open(os.path.join(DATA_DIR, "elements.json"), "w+")
+
+    #item = pprint.pformat(elements_json, indent=1, width=80)
     elements_file.write(elements_json)
     elements_file.close()
 

@@ -1,9 +1,8 @@
 import graph_utils
 import argparse
 
-
-
 node_ids = {}
+
 
 def standardize_element_ids(graph_dict):
     # iterate over elements
@@ -29,6 +28,30 @@ def standardize_element_ids(graph_dict):
 
     return graph_dict
 
+
+def move_name_and_desc(graph_dict):
+    new_elements = []
+    for element in graph_dict["elements"]:
+        new_ele = dict(
+            group=element["group"],
+            data=dict(
+                id=element["data"]["id"],
+                name=element["name"],
+                description=element["description"]))
+        if element["group"] == "edges":
+            new_ele["data"]["source_data"] = { "name": "", "description": ""}
+            new_ele["data"]["sink_data"] = {"name": "", "description": ""}
+            new_ele["data"]["source_data"]["name"] = element["source"]["name"]
+            new_ele["data"]["source_data"]["description"] = \
+                element["source"]["description"]
+            new_ele["data"]["sink_data"]["name"] = element["sink"]["name"]
+            new_ele["data"]["sink_data"]["description"] = \
+                element["sink"]["description"]
+            new_ele["data"]["source"] = element["data"]["source"]
+            new_ele["data"]["target"] = element["data"]["target"]
+        new_elements.append(new_ele)
+    graph_dict["elements"] = new_elements
+    return graph_dict
 
 def add_name_and_desc(graph_dict):
     for element in graph_dict["elements"]:
@@ -62,7 +85,7 @@ def add_name_and_desc(graph_dict):
             if "description" not in element["sink"]:
                 element["sink"]["description"] = ""
 
-            # and a description for the sink
+    return graph_dict
 
 
 def run():
@@ -76,6 +99,11 @@ def run():
         action="store_true",
         help="ensure every element has a name and description fields"
     )
+    parser.add_argument(
+        "--move_name_and_desc",
+        action="store_true",
+        help="move name and description to data group"
+    )
 
     args = parser.parse_args()
 
@@ -85,6 +113,8 @@ def run():
         graph_dict = standardize_element_ids(graph_dict)
     if args.fix_name_and_desc is True:
         graph_dict = add_name_and_desc(graph_dict)
+    if args.move_name_and_desc is True:
+        graph_dict = move_name_and_desc(graph_dict)
 
     graph_utils.update_elements_with_dict(graph_dict)
 

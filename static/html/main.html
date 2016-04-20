@@ -31,6 +31,24 @@
                        ng-model="node_form_data.node_id"
                        disabled>
             </div>
+            <div id="node-name-form-group" class="form-group">
+                <label>Node Name</label>
+                <input type="text"
+                       id="node_name"
+                       name="node_name"
+                       class="form-control"
+                       placeholder=""
+                       ng-model="node_form_data.node_name">
+            </div>
+            <div id="node-desc-form-group" class="form-group">
+                <label>Node Description</label>
+                <input type="text"
+                       id="node_desc"
+                       name="node_desc"
+                       class="form-control"
+                       placeholder=""
+                       ng-model="node_form_data.node_desc">
+            </div>
             <div class="btn-group" role="group">
                 <button type="button" ng-click="create_node_btn_click()"
                         class="btn btn-success">Create Node

@@ -80,6 +80,9 @@ function update_graph($scope) {
             $scope.edge_form_data.edge_target = $scope.sel_nodes[1];
         }
 
+        $scope.node_form_data.node_name = tapped_node.data.name;
+        $scope.node_form_data.node_desc = tapped_node.data.description;
+
         $scope.$apply();
     });
 
@@ -130,7 +133,7 @@ app.controller('main_controller', function ($scope, $http) {
 
         $scope.update_node_btn_click = function () {
             $http({
-                method: 'POST',
+                method: 'PUT',
                 url: '/api/node',
                 data: $scope.node_form_data,
                 headers: {'Content-Type': 'application/json'}

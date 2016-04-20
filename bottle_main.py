@@ -52,6 +52,24 @@ def create_node():
     return jsonpickle.encode(curr_elements)
 
 
+@put('/api/node')
+def update_node():
+    node_id = request.json["node_id"]
+    node_desc = request.json["node_desc"]
+    node_name = request.json["node_name"]
+    curr_elements = jsonpickle.decode(get_elements())
+    for ce in curr_elements["elements"]:
+        if ce["group"] == "nodes" and ce["data"]["id"] == node_id:
+            # update node name
+            if ce["data"]["description"] != node_desc.strip():
+                ce["data"]["description"] = node_desc.strip()
+            # update node desc
+            if ce["data"]["name"] != node_name.strip():
+                ce["data"]["name"] = node_name.strip()
+    graph_utils.update_elements_with_dict(curr_elements)
+    return jsonpickle.encode(curr_elements)
+
+
 @delete('/api/node')
 def delete_node():
     curr_elements = jsonpickle.decode(get_elements())
