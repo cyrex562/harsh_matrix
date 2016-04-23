@@ -80,8 +80,8 @@ function update_graph($scope) {
             $scope.edge_form_data.edge_target = $scope.sel_nodes[1];
         }
 
-        $scope.node_form_data.node_name = tapped_node.data.name;
-        $scope.node_form_data.node_desc = tapped_node.data.description;
+        $scope.node_form_data.name = tapped_node.data("name");
+        $scope.node_form_data.description = tapped_node.data("description");
 
         $scope.$apply();
     });
@@ -89,11 +89,15 @@ function update_graph($scope) {
     cy.on('tap', 'edge', function (event) {
         var tapped_edge = event.cyTarget;
         $scope.edge_form_data.edge_id = tapped_edge.id();
+        $scope.edge_form_data.edge_name = tapped_edge.data("name");
+        $scope.edge_form_data.edge_description = tapped_edge.data("description");
         $scope.edge_form_data.edge_source = tapped_edge.source().id();
         $scope.edge_form_data.edge_target = tapped_edge.target().id();
-        console.log("tapped edge id: " + $scope.edge_form_data.edge_id);
-        console.log("tapped edge source: " + $scope.edge_form_data.edge_source_id);
-        console.log("tapped edge target: " + $scope.edge_form_data.edge_target_id);
+        $scope.edge_form_data.source_name = tapped_edge.data("source_data").name;
+        $scope.edge_form_data.source_description = tapped_edge.data("source_data").description;
+        $scope.edge_form_data.target_name = tapped_edge.data("target_data").name;
+        $scope.edge_form_data.target_description = tapped_edge.data("target_data").description;
+
         $scope.$apply();
     });
 }

@@ -4,3 +4,11 @@
     height: 512px;
     display: block;
 }
+
+#form-col {
+    resize: horizontal;
+}
+
+#graph-col {
+    resize: horizontal;
+}

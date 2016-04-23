@@ -1,1 +1,100 @@
-{"elements": [{"group": "nodes", "data": {"id": "0"}}, {"group": "nodes", "data": {"id": "1"}}, {"group": "edges", "data": {"source": "0", "id": "010", "target": "1"}}, {"group": "edges", "data": {"source": "0", "id": "011", "target": "1"}}, {"group": "nodes", "data": {"id": "2"}}, {"group": "edges", "data": {"source": "2", "id": "20", "target": "0"}}, {"group": "nodes", "data": {"id": "4"}}, {"group": "edges", "data": {"source": "4", "id": "42", "target": "2"}}, {"group": "edges", "data": {"source": "4", "id": "43", "target": "3"}}, {"group": "nodes", "data": {"id": "3"}}, {"group": "edges", "data": {"source": "3", "id": "31", "target": "1"}}, {"group": "edges", "data": {"source": "3", "id": "32", "target": "2"}}]}
+{
+ "elements": [
+  {
+   "data": {
+    "id": "GQJB",
+    "name": "",
+    "description": ""
+   },
+   "group": "nodes"
+  },
+  {
+   "data": {
+    "id": "MA36",
+    "name": "test name",
+    "description": "test description"
+   },
+   "group": "nodes"
+  },
+  {
+   "data": {
+    "sink_data": {
+     "name": "",
+     "description": ""
+    },
+    "source_data": {
+     "name": "",
+     "description": ""
+    },
+    "id": "PPPW",
+    "name": "",
+    "description": ""
+   },
+   "group": "edges"
+  },
+  {
+   "data": {
+    "sink_data": {
+     "name": "",
+     "description": ""
+    },
+    "source_data": {
+     "name": "",
+     "description": ""
+    },
+    "id": "7MZS",
+    "name": "",
+    "description": ""
+   },
+   "group": "edges"
+  },
+  {
+   "data": {
+    "id": "XFBU",
+    "name": "",
+    "description": ""
+   },
+   "group": "nodes"
+  },
+  {
+   "data": {
+    "sink_data": {
+     "name": "",
+     "description": ""
+    },
+    "source_data": {
+     "name": "",
+     "description": ""
+    },
+    "id": "3F8X",
+    "name": "",
+    "description": ""
+   },
+   "group": "edges"
+  },
+  {
+   "data": {
+    "id": "746A",
+    "name": "",
+    "description": ""
+   },
+   "group": "nodes"
+  },
+  {
+   "data": {
+    "sink_data": {
+     "name": "",
+     "description": ""
+    },
+    "source_data": {
+     "name": "",
+     "description": ""
+    },
+    "id": "2QB6",
+    "name": "",
+    "description": ""
+   },
+   "group": "edges"
+  }
+ ]
+}

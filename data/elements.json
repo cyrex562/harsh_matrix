@@ -1,100 +1,132 @@
 {
  "elements": [
   {
+   "group": "nodes", 
    "data": {
-    "id": "GQJB", 
-    "name": "", 
-    "description": ""
-   }, 
-   "group": "nodes"
+    "description": "", 
+    "name": "node 3", 
+    "id": "GQJB"
+   }
   }, 
   {
+   "group": "nodes", 
    "data": {
-    "id": "MA36", 
-    "name": "test name", 
-    "description": "test description"
-   }, 
-   "group": "nodes"
+    "description": "", 
+    "name": "node 4", 
+    "id": "MA36"
+   }
   }, 
   {
+   "group": "nodes", 
    "data": {
-    "sink_data": {
-     "name": "", 
-     "description": ""
+    "description": "", 
+    "name": "node 2", 
+    "id": "XFBU"
+   }
+  }, 
+  {
+   "group": "nodes", 
+   "data": {
+    "description": "", 
+    "name": "node 1", 
+    "id": "746A"
+   }
+  }, 
+  {
+   "group": "edges", 
+   "data": {
+    "target_data": {
+     "description": "ntr", 
+     "name": "src 2"
     }, 
+    "source": "746A", 
+    "target": "GQJB", 
+    "id": "C6VQ", 
     "source_data": {
-     "name": "", 
-     "description": ""
-    }, 
-    "id": "PPPW", 
-    "name": "", 
-    "description": ""
-   }, 
-   "group": "edges"
+     "description": "ntr", 
+     "name": "src 1"
+    }
+   }
   }, 
   {
+   "group": "edges", 
    "data": {
-    "sink_data": {
-     "name": "", 
-     "description": ""
+    "target_data": {
+     "description": "ntr", 
+     "name": "tgt 1"
     }, 
+    "source": "GQJB", 
+    "target": "MA36", 
+    "id": "9PDK", 
     "source_data": {
-     "name": "", 
-     "description": ""
-    }, 
-    "id": "7MZS", 
-    "name": "", 
-    "description": ""
-   }, 
-   "group": "edges"
+     "description": "ntr", 
+     "name": "src 1"
+    }
+   }
   }, 
   {
+   "group": "edges", 
    "data": {
-    "id": "XFBU", 
-    "name": "", 
-    "description": ""
-   }, 
-   "group": "nodes"
-  }, 
-  {
-   "data": {
-    "sink_data": {
-     "name": "", 
-     "description": ""
+    "target_data": {
+     "description": "ntr", 
+     "name": "tgt 1"
     }, 
+    "source": "MA36", 
+    "target": "XFBU", 
+    "id": "WYE0", 
     "source_data": {
-     "name": "", 
-     "description": ""
-    }, 
-    "id": "3F8X", 
-    "name": "", 
-    "description": ""
-   }, 
-   "group": "edges"
+     "description": "ntr", 
+     "name": "src 1"
+    }
+   }
   }, 
   {
+   "group": "edges", 
    "data": {
-    "id": "746A", 
-    "name": "", 
-    "description": ""
-   }, 
-   "group": "nodes"
-  }, 
-  {
-   "data": {
-    "sink_data": {
-     "name": "", 
-     "description": ""
+    "target_data": {
+     "description": "ntr", 
+     "name": "tgt 1"
     }, 
+    "source": "XFBU", 
+    "target": "746A", 
+    "id": "RUJ6", 
     "source_data": {
-     "name": "", 
-     "description": ""
+     "description": "ntr", 
+     "name": "src 1"
+    }
+   }
+  }, 
+  {
+   "group": "edges", 
+   "data": {
+    "target_data": {
+     "description": "ntr", 
+     "name": "tgt 1"
     }, 
-    "id": "2QB6", 
-    "name": "", 
-    "description": ""
-   }, 
-   "group": "edges"
+    "source": "746A", 
+    "target": "MA36", 
+    "id": "K9F1", 
+    "source_data": {
+     "description": "ntr", 
+     "name": "src 1"
+    }
+   }
+  }, 
+  {
+   "group": "edges", 
+   "data": {
+    "target_data": {
+     "description": "ntr", 
+     "name": "tgt 1"
+    }, 
+    "source": "GQJB", 
+    "target": "XFBU", 
+    "id": "2DRW", 
+    "source_data": {
+     "description": "ntr", 
+     "name": "src 1"
+    }
+   }
   }
  ]
 }

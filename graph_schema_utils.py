@@ -53,6 +53,7 @@ def move_name_and_desc(graph_dict):
     graph_dict["elements"] = new_elements
     return graph_dict
 
+
 def add_name_and_desc(graph_dict):
     for element in graph_dict["elements"]:
         # check if the element contains a name field, create one if it does not
